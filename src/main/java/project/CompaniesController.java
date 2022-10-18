@@ -63,6 +63,59 @@ public class CompaniesController implements CompanyDao {
         return company;
     }
 
+    public void chooseCompany() {
+        List<Company> companies = this.getAllCompanies();
+        if (companies.isEmpty()) {
+            System.out.println("\nThe company list is empty!");
+            return;
+        }
+
+        Company company;
+        while (true) {
+            printChooseCompanyInstructions(companies);
+            company = getCompany(companies);
+
+            if (company != null) {
+                break;
+            } else {
+                System.out.println("There is no company with that name / id");
+            }
+        }
+
+        company.chooseCar();
+    }
+
+    private Company getCompany(List<Company> companies) {
+        String input = Main.scanner.nextLine();
+        for (Company company : companies) {
+            if (input.equals(company.getName()) || input.equals(String.valueOf(company.getId()))) {
+                return company;
+            }
+        }
+
+        return null;
+    }
+
+    private void printChooseCompanyInstructions(List<Company> companies) {
+        System.out.println();
+        System.out.println("Choose the company:");
+        companies.forEach(company -> System.out.printf("%d. %s\n", company.getId(), company.getName()));
+    }
+
+    public void createCompany() {
+        System.out.println();
+        System.out.println("Enter the company name:");
+        String input = Main.scanner.nextLine();
+
+        try {
+            Main.getStatement().executeUpdate("INSERT INTO company (name) VALUES ('" + input + "')");
+            System.out.println("The company was created!");
+        } catch (SQLException e) {
+            System.out.println("Failed to add new company");
+            System.out.println(e.getMessage());
+        }
+    }
+
     @Override
     public void updateCompany(int id, String newName) {
     }

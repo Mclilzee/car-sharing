@@ -63,10 +63,10 @@ public class Main {
 
             switch (scanner.nextLine()) {
                 case "1":
-                    chooseCompany();
+                    controller.chooseCompany();
                     break;
                 case "2":
-                    createCompany();
+                    controller.createCompany();
                     break;
                 case "0":
                     quit = true;
@@ -84,56 +84,5 @@ public class Main {
         System.out.println("0. Back");
     }
 
-    private static void chooseCompany() {
-        List<Company> companies = controller.getAllCompanies();
-        if (companies.isEmpty()) {
-            System.out.println("\n The company list is empty!");
-            return;
-        }
 
-        Company company;
-        while (true) {
-            printChooseCompanyInstructions(companies);
-            company = getCompany(companies);
-
-            if (company != null) {
-                break;
-            } else {
-                System.out.println("There is no company with that name / id");
-            }
-        }
-
-        company.chooseCar();
-    }
-
-    private static Company getCompany(List<Company> companies) {
-        String input = scanner.nextLine();
-        for (Company company : companies) {
-            if (input.equals(company.getName()) || input.equals(String.valueOf(company.getId()))) {
-                return company;
-            }
-        }
-
-        return null;
-    }
-
-    private static void printChooseCompanyInstructions(List<Company> companies) {
-        System.out.println();
-        System.out.println("Choose the company:");
-        companies.forEach(company -> System.out.printf("%d. %s\n", company.getId(), company.getName()));
-    }
-
-    private static void createCompany() {
-        System.out.println();
-        System.out.println("Enter the company name:");
-        String input = scanner.nextLine();
-
-        try {
-            statement.executeUpdate("INSERT INTO company (name) VALUES ('" + input + "')");
-            System.out.println("The company was created!");
-        } catch (SQLException e) {
-            System.out.println("Failed to add new company");
-            System.out.println(e.getMessage());
-        }
-    }
 }
