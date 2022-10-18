@@ -84,6 +84,7 @@ public class Main {
         while (true) {
             try {
                 Company company = controller.getCompany(Integer.parseInt(scanner.nextLine()));
+                company.chooseCar(statement, scanner);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Wrong input, choose again");
