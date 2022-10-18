@@ -1,3 +1,0 @@
-2022-10-18 06:31:07 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE IF NOT EXIST[*] COMPANY (ID INT, NAME VARCHAR)"; expected "EXISTS"; SQL statement:
-CREATE TABLE IF NOT EXIST COMPANY (ID INT, NAME VARCHAR) [42001-200]
