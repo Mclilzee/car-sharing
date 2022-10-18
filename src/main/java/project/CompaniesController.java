@@ -29,9 +29,10 @@ public class CompaniesController implements CompanyDao {
         return companies;
     }
 
+
     @Override
     public Company getCompany(String input) {
-        Company company = null;
+        Company company;
         if (input.matches("\\d+")) {
             company = queryCompanyById(Integer.parseInt(input));
         } else {
@@ -71,16 +72,5 @@ public class CompaniesController implements CompanyDao {
 
     @Override
     public void deleteCompany(int id) {
-    }
-
-    @Override
-    public String toString() {
-        List<Company> companies = getAllCompanies();
-        StringBuilder builder = new StringBuilder();
-        for (Company company : companies) {
-            builder.append(company.getId()).append(". ").append(company.getName()).append("\n");
-        }
-
-        return builder.toString();
     }
 }

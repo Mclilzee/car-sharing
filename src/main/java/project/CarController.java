@@ -10,12 +10,7 @@ public class CarController implements CarDao {
     }
 
     @Override
-    public Car getCar(int id) {
-        return null;
-    }
-
-    @Override
-    public Car getCar(String name) {
+    public Car getCar(String input) {
         return null;
     }
 

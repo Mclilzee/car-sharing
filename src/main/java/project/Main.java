@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     private static CompaniesController controller;
     private static Statement statement;
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
@@ -26,13 +28,12 @@ public class Main {
     }
 
     private static void menuOptions() {
-        Scanner scanner = new Scanner(System.in);
         boolean quit = false;
         while (!quit) {
             printMenuOptionsInstructions();
             switch (scanner.nextLine()) {
                 case "1":
-                    logInAsManager(scanner);
+                    logInAsManager();
                     break;
                 case "0":
                     quit = true;
@@ -51,17 +52,17 @@ public class Main {
         System.out.println("0. Exit");
     }
 
-    private static void logInAsManager(Scanner scanner) {
+    private static void logInAsManager() {
         boolean quit = false;
         while (!quit) {
             printLogInAsManagerInstructions();
 
             switch (scanner.nextLine()) {
                 case "1":
-                    chooseCompany(scanner);
+                    chooseCompany();
                     break;
                 case "2":
-                    createCompany(scanner);
+                    createCompany();
                     break;
                 case "0":
                     quit = true;
@@ -79,30 +80,46 @@ public class Main {
         System.out.println("0. Back");
     }
 
-    private static void chooseCompany(Scanner scanner) {
-        printChooseCompanyInstructions();
+    private static void chooseCompany() {
+        List<Company> companies = controller.getAllCompanies();
+        if (companies.isEmpty()) {
+            System.out.println("\n The company list is empty!");
+            return;
+        }
+
         Company company;
         while (true) {
-            company = controller.getCompany(scanner.nextLine());
+            printChooseCompanyInstructions(companies);
+            company = getCompany(companies);
 
             if (company != null) {
                 break;
             } else {
                 System.out.println("There is no company with that name / id");
-                printChooseCompanyInstructions();
             }
         }
 
         company.chooseCar(statement, scanner);
     }
 
-    private static void printChooseCompanyInstructions() {
-        System.out.println();
-        System.out.println("Choose a company");
-        System.out.println(controller.toString());
+    private static Company getCompany(List<Company> companies) {
+        String input = scanner.nextLine();
+        for (Company company : companies) {
+            if (input.equals(company.getName()) || input.equals(String.valueOf(company.getId()))) {
+                return company;
+            }
+        }
+
+        return null;
     }
 
-    private static void createCompany(Scanner scanner) {
+    private static void printChooseCompanyInstructions(List<Company> companies) {
+        System.out.println();
+        System.out.println("Choose the company:");
+        companies.forEach(company -> System.out.printf("%d. %s\n", company.getId(), company.getName()));
+    }
+
+    private static void createCompany() {
         System.out.println();
         System.out.println("Enter the company name:");
         String input = scanner.nextLine();

@@ -6,8 +6,7 @@ import java.util.Map;
 public interface CarDao {
     public List<Car> getAllCompanies();
 
-    public Car getCar(int id);
-    public Car getCar(String name);
+    public Car getCar(String input);
 
     public void updateCar(int id, String newName);
 
