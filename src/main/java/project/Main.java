@@ -1,8 +1,9 @@
 package project;
 
-import java.io.File;
-import java.sql.*;
-import java.util.Arrays;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class Main {
@@ -72,7 +73,7 @@ public class Main {
     }
 
     private static void printLogInAsManagerInstructions() {
-        System.out.println("\n1. Company List");
+        System.out.println("\n1. Company list");
         System.out.println("2. Create a company");
         System.out.println("0. Back");
     }
