@@ -30,15 +30,36 @@ public class CompaniesController implements CompanyDao {
     }
 
     @Override
-    public Company getCompany(int id) {
+    public Company getCompany(String input) {
+        Company company = null;
+        if (input.matches("\\d+")) {
+            company = queryCompanyById(Integer.parseInt(input));
+        } else {
+            company = queryCompanyByName(input);
+        }
+
+        return company;
+    }
+
+    private Company queryCompanyByName(String name) {
+        Company company = null;
+        try {
+            ResultSet result = statement.executeQuery("SELECT * FROM company WHERE name = '" + name + "'");
+            result.first();
+            company = new Company(result.getInt("id"), result.getString("name"));
+        } catch (SQLException ignored) {
+        }
+
+        return company;
+    }
+
+    private Company queryCompanyById(int id) {
         Company company = null;
         try {
             ResultSet result = statement.executeQuery("SELECT * FROM company WHERE id = " + id);
             result.first();
             company = new Company(result.getInt("id"), result.getString("name"));
-        } catch (SQLException e) {
-            System.out.println("Failed to retrieve company from database");
-            System.out.println(e.getMessage());
+        } catch (SQLException ignored) {
         }
 
         return company;
@@ -50,5 +71,16 @@ public class CompaniesController implements CompanyDao {
 
     @Override
     public void deleteCompany(int id) {
+    }
+
+    @Override
+    public String toString() {
+        List<Company> companies = getAllCompanies();
+        StringBuilder builder = new StringBuilder();
+        for (Company company : companies) {
+            builder.append(company.getId()).append(". ").append(company.getName()).append("\n");
+        }
+
+        return builder.toString();
     }
 }

@@ -1,16 +1,21 @@
 package project;
 
-import java.util.Map;
+import java.util.List;
 
 public class CarController implements CarDao {
 
     @Override
-    public Map<Integer, Car> getAllCompanies() {
+    public List<Car> getAllCompanies() {
         return null;
     }
 
     @Override
     public Car getCar(int id) {
+        return null;
+    }
+
+    @Override
+    public Car getCar(String name) {
         return null;
     }
 

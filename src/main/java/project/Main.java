@@ -81,16 +81,19 @@ public class Main {
 
     private static void chooseCompany(Scanner scanner) {
         printChooseCompanyInstructions();
+        Company company;
         while (true) {
-            try {
-                Company company = controller.getCompany(Integer.parseInt(scanner.nextLine()));
-                company.chooseCar(statement, scanner);
+            company = controller.getCompany(scanner.nextLine());
+
+            if (company != null) {
                 break;
-            } catch (NumberFormatException e) {
-                System.out.println("Wrong input, choose again");
+            } else {
+                System.out.println("There is no company with that name / id");
                 printChooseCompanyInstructions();
             }
         }
+
+        company.chooseCar(statement, scanner);
     }
 
     private static void printChooseCompanyInstructions() {
@@ -106,7 +109,6 @@ public class Main {
 
         try {
             statement.executeUpdate("INSERT INTO company (name) VALUES ('" + input + "')");
-            controller.updateCompanies();
             System.out.println("The company was created!");
         } catch (SQLException e) {
             System.out.println("Failed to add new company");
