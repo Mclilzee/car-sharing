@@ -26,7 +26,6 @@ public class CompaniesController implements CompanyDao {
         return companies;
     }
 
-
     @Override
     public Company getCompany(String input) {
         Company company;
@@ -73,8 +72,12 @@ public class CompaniesController implements CompanyDao {
         Company company;
         while (true) {
             printChooseCompanyInstructions(companies);
-            company = getCompany(companies);
+            String input = Main.scanner.nextLine();
+            if (input.equals("0")) {
+                return;
+            }
 
+            company = getCompany(companies, input);
             if (company != null) {
                 break;
             } else {
@@ -85,8 +88,7 @@ public class CompaniesController implements CompanyDao {
         company.chooseCar();
     }
 
-    private Company getCompany(List<Company> companies) {
-        String input = Main.scanner.nextLine();
+    private Company getCompany(List<Company> companies, String input) {
         for (Company company : companies) {
             if (input.equals(company.getName()) || input.equals(String.valueOf(company.getId()))) {
                 return company;
@@ -100,6 +102,7 @@ public class CompaniesController implements CompanyDao {
         System.out.println();
         System.out.println("Choose the company:");
         companies.forEach(company -> System.out.printf("%d. %s\n", company.getId(), company.getName()));
+        System.out.println("0. Back");
     }
 
     public void createCompany() {

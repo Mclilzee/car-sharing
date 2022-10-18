@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -21,7 +20,7 @@ public class Main {
 
         controller = new CompaniesController();
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS company (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL)");
-        statement.executeUpdate("CREATE TABLE IF NOT EXISTS cars    (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL," +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS car (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL," +
                 "company_id INT NOT NULL, FOREIGN KEY (company_id) REFERENCES company(id))");
         menuOptions();
         conn.close();

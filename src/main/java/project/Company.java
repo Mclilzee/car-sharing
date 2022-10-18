@@ -2,7 +2,6 @@ package project;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,12 +34,12 @@ public class Company {
     public List<Car> getAllCars() {
         List<Car> cars = new ArrayList<>();
         try {
-            ResultSet result = Main.getStatement().executeQuery("SELECT id, name FROM cars WHERE company_id = " + this.id);
+            ResultSet result = Main.getStatement().executeQuery("SELECT id, name FROM car WHERE company_id = " + this.id);
             while (result.next()) {
                 cars.add(new Car(result.getInt("id"), result.getString("name")));
             }
         } catch (SQLException e) {
-            System.out.println("Failed to retrieve cars data");
+            System.out.println("Failed to retrieve car data");
             System.out.println(e.getMessage());
         }
 
@@ -82,7 +81,7 @@ public class Company {
         System.out.println("Enter the car name:");
         String name = Main.scanner.nextLine();
         try {
-            Main.getStatement().executeUpdate("INSERT INTO cars (name, company_id) VALUES ('" + name + "', " + this.id + ")");
+            Main.getStatement().executeUpdate("INSERT INTO car (name, company_id) VALUES ('" + name + "', " + this.id + ")");
             System.out.println("the car was added!");
         } catch (SQLException e) {
             System.out.println("Failed to add new car");
