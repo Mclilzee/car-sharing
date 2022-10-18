@@ -35,7 +35,7 @@ public class Company {
     public List<Car> getAllCars() {
         List<Car> cars = new ArrayList<>();
         try {
-            ResultSet result = Main.getStatement().executeQuery("SELECT * FROM cars WHERE company_id = " + this.id);
+            ResultSet result = Main.getStatement().executeQuery("SELECT id, name FROM cars WHERE company_id = " + this.id);
             while (result.next()) {
                 cars.add(new Car(result.getInt("id"), result.getString("name")));
             }
@@ -69,7 +69,12 @@ public class Company {
     }
 
     private void printCarList() {
-
+        List<Car> cars = getAllCars();
+        if (cars.isEmpty()) {
+            System.out.println("\nThe car list is empty!");
+        } else {
+            cars.forEach(car -> System.out.printf("%d. %s\n", car.getId(), car.getName()));
+        }
     }
 
     private void createCar() {
@@ -77,7 +82,7 @@ public class Company {
     }
 
     private void printChooseCarInstructions() {
-        System.out.printf("'%s' company\n", this.name);
+        System.out.printf("\n'%s' company\n", this.name);
         System.out.println("1. Car list");
         System.out.println("2. Create a car");
         System.out.println("0. Back");
