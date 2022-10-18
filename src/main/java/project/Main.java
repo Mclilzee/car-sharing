@@ -19,6 +19,8 @@ public class Main {
 
         controller = new CompaniesController(statement);
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS company (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL)");
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS cars    (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL," +
+                "company_id INT NOT NULL, FOREIGN KEY (company_id) REFERENCES company(id))");
         menuOptions();
         conn.close();
     }
@@ -87,7 +89,6 @@ public class Main {
             statement.executeUpdate("INSERT INTO company (name) VALUES ('" + input + "')");
             controller.updateCompanies();
             System.out.println("The company was created!");
-
         } catch (SQLException e) {
             System.out.println("Failed to add new company");
             System.out.println(e.getMessage());
