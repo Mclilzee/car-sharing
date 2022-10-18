@@ -1,6 +1,10 @@
 package project;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Company {
 
@@ -26,6 +30,21 @@ public class Company {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Car> getAllCars() {
+        List<Car> cars = new ArrayList<>();
+        try {
+            ResultSet result = Main.getStatement().executeQuery("SELECT * FROM cars WHERE company_id = " + this.id);
+            while (result.next()) {
+                cars.add(new Car(result.getInt("id"), result.getString("name")));
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve cars data");
+            System.out.println(e.getMessage());
+        }
+
+        return cars;
     }
 
     public void chooseCar() {
