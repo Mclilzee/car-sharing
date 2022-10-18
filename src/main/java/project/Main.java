@@ -58,8 +58,7 @@ public class Main {
 
             switch (scanner.nextLine()) {
                 case "1":
-                    System.out.println();
-                    System.out.println(controller.toString());
+                    chooseCompany(scanner);
                     break;
                 case "2":
                     createCompany(scanner);
@@ -78,6 +77,25 @@ public class Main {
         System.out.println("\n1. Company list");
         System.out.println("2. Create a company");
         System.out.println("0. Back");
+    }
+
+    private static void chooseCompany(Scanner scanner) {
+        printChooseCompanyInstructions();
+        while (true) {
+            try {
+                Company company = controller.getCompany(Integer.parseInt(scanner.nextLine()));
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Wrong input, choose again");
+                printChooseCompanyInstructions();
+            }
+        }
+    }
+
+    private static void printChooseCompanyInstructions() {
+        System.out.println();
+        System.out.println("Choose a company");
+        System.out.println(controller.toString());
     }
 
     private static void createCompany(Scanner scanner) {
