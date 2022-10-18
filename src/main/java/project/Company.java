@@ -1,7 +1,6 @@
 package project;
 
 import java.sql.Statement;
-import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 public class Company {

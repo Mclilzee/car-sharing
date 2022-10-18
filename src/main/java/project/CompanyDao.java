@@ -1,9 +1,9 @@
 package project;
 
-import java.util.Map;
+import java.util.List;
 
 public interface CompanyDao {
-    public Map<Integer, Company> getAllCompanies();
+    public List<Company> getAllCompanies();
     public Company getCompany(int id);
     public void updateCompany(int id, String newName);
     public void deleteCompany(int id);
