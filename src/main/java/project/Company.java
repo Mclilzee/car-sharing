@@ -29,8 +29,8 @@ public class Company {
         this.id = id;
     }
 
-    public void chooseCar(Statement statement, Scanner scanner) {
-
+    public void chooseCar() {
+        Statement statement = Main.getStatement();
     }
 
     private void printChooseCarInstructions() {

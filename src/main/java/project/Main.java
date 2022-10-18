@@ -11,7 +11,7 @@ public class Main {
 
     private static CompaniesController controller;
     private static Statement statement;
-    private static final Scanner scanner = new Scanner(System.in);
+    public static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
@@ -19,12 +19,16 @@ public class Main {
         conn.setAutoCommit(true);
         statement = conn.createStatement();
 
-        controller = new CompaniesController(statement);
+        controller = new CompaniesController();
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS company (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL)");
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS cars    (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL," +
                 "company_id INT NOT NULL, FOREIGN KEY (company_id) REFERENCES company(id))");
         menuOptions();
         conn.close();
+    }
+
+    public static Statement getStatement() {
+        return statement;
     }
 
     private static void menuOptions() {
@@ -99,7 +103,7 @@ public class Main {
             }
         }
 
-        company.chooseCar(statement, scanner);
+        company.chooseCar();
     }
 
     private static Company getCompany(List<Company> companies) {

@@ -2,22 +2,19 @@ package project;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CompaniesController implements CompanyDao {
-    private final Statement statement;
 
-    public CompaniesController(Statement statement) {
-        this.statement = statement;
+    public CompaniesController() {
     }
 
     @Override
     public List<Company> getAllCompanies() {
         List<Company> companies = new ArrayList<>();
         try {
-            ResultSet result = statement.executeQuery("Select * FROM company");
+            ResultSet result = Main.getStatement().executeQuery("Select * FROM company");
             while (result.next()) {
                 companies.add(new Company(result.getInt("id"), result.getString("name")));
             }
@@ -45,7 +42,7 @@ public class CompaniesController implements CompanyDao {
     private Company queryCompanyByName(String name) {
         Company company = null;
         try {
-            ResultSet result = statement.executeQuery("SELECT * FROM company WHERE name = '" + name + "'");
+            ResultSet result = Main.getStatement().executeQuery("SELECT * FROM company WHERE name = '" + name + "'");
             result.first();
             company = new Company(result.getInt("id"), result.getString("name"));
         } catch (SQLException ignored) {
@@ -57,7 +54,7 @@ public class CompaniesController implements CompanyDao {
     private Company queryCompanyById(int id) {
         Company company = null;
         try {
-            ResultSet result = statement.executeQuery("SELECT * FROM company WHERE id = " + id);
+            ResultSet result = Main.getStatement().executeQuery("SELECT * FROM company WHERE id = " + id);
             result.first();
             company = new Company(result.getInt("id"), result.getString("name"));
         } catch (SQLException ignored) {
