@@ -1,7 +1,6 @@
 package project;
 
 import java.sql.Statement;
-import java.util.Scanner;
 
 public class Company {
 
@@ -30,7 +29,32 @@ public class Company {
     }
 
     public void chooseCar() {
-        Statement statement = Main.getStatement();
+        boolean quit = false;
+        while (!quit) {
+            printChooseCarInstructions();
+            switch (Main.scanner.nextLine()) {
+                case "1":
+                    printCarList();
+                    break;
+                case "2":
+                    createCar();
+                    break;
+                case "0":
+                    quit = true;
+                    break;
+                default:
+                    System.out.println("Wrong input, please try again");
+                    break;
+            }
+        }
+    }
+
+    private void printCarList() {
+
+    }
+
+    private void createCar() {
+
     }
 
     private void printChooseCarInstructions() {
