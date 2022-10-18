@@ -1,15 +1,24 @@
 package project;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class CompaniesController implements CompanyDao {
 
-    Map<Integer, Company> companies;
+    private Map<Integer, Company> companies;
+    private final Statement statement;
 
-    public CompaniesController() {
+    public CompaniesController(Statement statement) {
         this.companies = new LinkedHashMap<>();
+        this.statement = statement;
+        try {
+            updateCompanies();
+        } catch (SQLException ignored) {
+        }
     }
 
     @Override
@@ -33,6 +42,29 @@ public class CompaniesController implements CompanyDao {
         companies.remove(id);
     }
 
+    public void updateCompanies() throws SQLException {
+        ResultSet result = queryCompanies();
+
+        Map<Integer, Company> companyMap = new LinkedHashMap<>();
+        while (result.next()) {
+            int id = result.getInt("id");
+            String name = result.getString("name");
+
+            companyMap.put(id, new Company(id, name));
+        }
+
+        companies = companyMap;
+    }
+
+    private ResultSet queryCompanies() throws SQLException {
+        try {
+            return statement.executeQuery("SELECT * FROM company;");
+        } catch (SQLException ignored) {
+        }
+
+        throw new SQLException();
+    }
+
     @Override
     public String toString() {
         if (companies.isEmpty()) {
@@ -41,9 +73,9 @@ public class CompaniesController implements CompanyDao {
 
         StringBuilder builder = new StringBuilder("Company List:\n");
         for (Map.Entry<Integer, Company> entry : companies.entrySet()) {
-            builder.append(entry.getKey()).append(". ").append(entry.getValue().getName());
+            builder.append(entry.getKey()).append(". ").append(entry.getValue().getName()).append("\n");
         }
 
-        return builder.toString();
+        return builder.toString().strip();
     }
 }
