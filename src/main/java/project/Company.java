@@ -73,12 +73,21 @@ public class Company {
         if (cars.isEmpty()) {
             System.out.println("\nThe car list is empty!");
         } else {
+            System.out.println("\nCar list:");
             cars.forEach(car -> System.out.printf("%d. %s\n", car.getId(), car.getName()));
         }
     }
 
     private void createCar() {
-
+        System.out.println("Enter the car name:");
+        String name = Main.scanner.nextLine();
+        try {
+            Main.getStatement().executeUpdate("INSERT INTO cars (name, company_id) VALUES ('" + name + "', " + this.id + ")");
+            System.out.println("the car was added!");
+        } catch (SQLException e) {
+            System.out.println("Failed to add new car");
+            System.out.println(e.getMessage());
+        }
     }
 
     private void printChooseCarInstructions() {
