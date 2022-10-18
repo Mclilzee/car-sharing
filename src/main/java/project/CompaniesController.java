@@ -1,11 +1,16 @@
 package project;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class CompaniesController implements CompanyDao {
 
     Map<Integer, Company> companies;
+
+    public CompaniesController() {
+        this.companies = new LinkedHashMap<>();
+    }
 
     @Override
     public Map<Integer, Company> getAllCompanies() {
@@ -26,5 +31,19 @@ public class CompaniesController implements CompanyDao {
     @Override
     public void deleteCompany(int id) {
         companies.remove(id);
+    }
+
+    @Override
+    public String toString() {
+        if (companies.isEmpty()) {
+            return "The company list is empty!";
+        }
+
+        StringBuilder builder = new StringBuilder("Company List:\n");
+        for (Map.Entry<Integer, Company> entry : companies.entrySet()) {
+            builder.append(entry.getKey()).append(". ").append(entry.getValue().getName());
+        }
+
+        return builder.toString();
     }
 }
