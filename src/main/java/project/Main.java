@@ -1,6 +1,8 @@
 package project;
 
+import java.io.File;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -14,8 +16,8 @@ public class Main {
         conn.setAutoCommit(true);
         statement = conn.createStatement();
 
-        controller = new CompaniesController();
-        statement.executeUpdate("CREATE TABLE IF NOT EXISTS company (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR NOT NULL)");
+        controller = new CompaniesController(statement);
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS company (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL)");
         menuOptions();
         conn.close();
     }
@@ -24,6 +26,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
         while (!quit) {
+            printMenuOptionsInstructions();
             switch (scanner.nextLine()) {
                 case "1":
                     logInAsManager(scanner);
@@ -33,7 +36,6 @@ public class Main {
                     break;
                 default:
                     System.out.println("Incorrect option chosen :");
-                    printMenuOptionsInstructions();
                     break;
             }
         }
@@ -49,8 +51,11 @@ public class Main {
     private static void logInAsManager(Scanner scanner) {
         boolean quit = false;
         while (!quit) {
+            printLogInAsManagerInstructions();
+
             switch (scanner.nextLine()) {
                 case "1":
+                    System.out.println();
                     System.out.println(controller.toString());
                     break;
                 case "2":
@@ -61,26 +66,30 @@ public class Main {
                     break;
                 default:
                     System.out.println("Wrong input, please choose again:");
-                    printLogInAsManagerInstructions();
+                    break;
             }
         }
     }
 
     private static void printLogInAsManagerInstructions() {
-        System.out.println("1. Company List");
+        System.out.println("\n1. Company List");
         System.out.println("2. Create a company");
         System.out.println("0. Back");
     }
 
     private static void createCompany(Scanner scanner) {
+        System.out.println();
         System.out.println("Enter the company name:");
         String input = scanner.nextLine();
 
         try {
-            statement.executeUpdate("INSERT INTO COMPANY (name) VALUES (%s)", input.split(""));
+            statement.executeUpdate("INSERT INTO company (name) VALUES ('" + input + "')");
+            controller.updateCompanies();
+            System.out.println("The company was created!");
+
         } catch (SQLException e) {
             System.out.println("Failed to add new company");
+            System.out.println(e.getMessage());
         }
-
     }
 }
