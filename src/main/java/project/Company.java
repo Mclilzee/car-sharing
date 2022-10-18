@@ -1,11 +1,13 @@
 package project;
 
 import java.sql.Statement;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 public class Company {
-    private String name;
+
     private int id;
+    private String name;
 
     public Company(int id, String name) {
         this.id = id;
