@@ -97,7 +97,7 @@ public class Customer {
 
     private void updateCars() {
         if (chosenCompany != null) {
-            this.cars = chosenCompany.getCars();
+            this.cars = chosenCompany.getAvailableCars();
         }
     }
 
@@ -128,7 +128,7 @@ public class Customer {
 
     private void rentSpecificCar(Car car) {
         try {
-            Main.getStatement().executeUpdate("UPDATE customer SET rented_car_id = " + car.getId());
+            Main.getStatement().executeUpdate("UPDATE customer SET rented_car_id = " + car.getId() + "WHERE id = " + this.id);
             System.out.printf("\nYou rented '%s'\n", car.getName());
         } catch (SQLException e) {
             System.out.println("Failed to rent a car");

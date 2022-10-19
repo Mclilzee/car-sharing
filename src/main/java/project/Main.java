@@ -39,7 +39,7 @@ public class Main {
                     logInAsManager();
                     break;
                 case "2":
-                    CustomersController.chooseCustomer();
+                    CustomersController.manageCustomers();
                     break;
                 case "3":
                     CustomersController.createCustomer();
@@ -58,7 +58,7 @@ public class Main {
 
     private static void printMenuOptionsInstructions() {
         System.out.println("1. Log in as a manager");
-        System.out.println("2. Log in as customer");
+        System.out.println("2. Log in as a customer");
         System.out.println("3. Create a customer");
         System.out.println("0. Exit");
     }

@@ -51,7 +51,7 @@ public abstract class CompaniesController {
                 return null;
             }
 
-            company = getCompany(input);
+            company = findCompany(input);
             if (company != null) {
                 return company;
             } else {
@@ -83,7 +83,7 @@ public abstract class CompaniesController {
         }
     }
 
-    public static Company getCompany(String input) {
+    private static Company findCompany(String input) {
         if (input.matches("\\d+")) {
             int index = Integer.parseInt(input) - 1;
             return companies.size() > index ? companies.get(index) : null;

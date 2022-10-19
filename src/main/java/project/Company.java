@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Company {
 
@@ -17,9 +18,30 @@ public class Company {
         this.cars = new ArrayList<>();
     }
 
-    public List<Car> getCars() {
+    public List<Car> getAvailableCars() {
         updateCars();
-        return this.cars;
+        List<Integer> rentedCarsId = getRentedCarsId();
+        List<Car> availableList = new ArrayList<>(this.cars);
+        for (int id : rentedCarsId) {
+            availableList = availableList.stream().filter(car -> car.getId() != id).collect(Collectors.toList());
+        }
+
+        return availableList;
+    }
+
+    private List<Integer> getRentedCarsId() {
+        List<Integer> rentedCarsId = new ArrayList<>();
+        try {
+            ResultSet result = Main.getStatement().executeQuery("SELECT rented_car_id FROM customer WHERE rented_car_id IS NOT NULL");
+            while (result.next()) {
+                rentedCarsId.add(result.getInt("rented_car_id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieved customers that rented");
+            System.out.println(e.getMessage());
+        }
+
+        return rentedCarsId;
     }
 
     public String getName() {

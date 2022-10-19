@@ -29,11 +29,18 @@ public abstract class CustomersController {
         }
     }
 
-    public static void chooseCustomer() {
+    public static void manageCustomers() {
+        Customer customer = getCustomer();
+        if (customer != null) {
+            customer.optionsMenu();
+        }
+    }
+
+    public static Customer getCustomer() {
         updateCustomers();
         if (customers.isEmpty()) {
             System.out.println("\nThe customer list is empty!\n");
-            return;
+            return null;
         }
 
         Customer customer;
@@ -41,14 +48,13 @@ public abstract class CustomersController {
             printCustomerChoosingInstructions();
             String input = Main.scanner.nextLine();
             if ("0".equals(input)) {
-                return;
+                return null;
             }
 
-            customer = getCustomer(input);
+            customer = findCustomer(input);
 
             if (customer != null) {
-                customer.optionsMenu();
-                break;
+                return customer;
             } else {
                 System.out.println("There is no customer with name / id -> " + input);
             }
@@ -76,7 +82,7 @@ public abstract class CustomersController {
         }
     }
 
-    private static Customer getCustomer(String input) {
+    private static Customer findCustomer(String input) {
         if (input.matches("\\d+")) {
             int index = Integer.parseInt(input) - 1;
             return customers.size() > index ? customers.get(index) : null;
