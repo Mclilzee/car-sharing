@@ -45,29 +45,11 @@ public class CompaniesController {
             if (company != null) {
                 break;
             } else {
-                System.out.println("There is no company with that name / id");
+                System.out.println("There is no company with that name / id -> " + input);
             }
         }
 
         company.chooseCar();
-    }
-
-    private Company getCompany(String input) {
-        if (input.matches("\\d+")) {
-            int index = Integer.parseInt(input) - 1;
-            return this.companies.size() > index ? this.companies.get(index) : null;
-        } else {
-            return findCompanyByName(input);
-        }
-    }
-
-    private Company findCompanyByName(String name) {
-        for (Company company : this.companies) {
-            if (name.equalsIgnoreCase(company.getName())) {
-                return company;
-            }
-        }
-        return null;
     }
 
     private void printChooseCompanyInstructions() {
@@ -91,5 +73,23 @@ public class CompaniesController {
             System.out.println("Failed to add new company");
             System.out.println(e.getMessage());
         }
+    }
+
+    private Company getCompany(String input) {
+        if (input.matches("\\d+")) {
+            int index = Integer.parseInt(input) - 1;
+            return this.companies.size() > index ? this.companies.get(index) : null;
+        } else {
+            return findCompanyByName(input);
+        }
+    }
+
+    private Company findCompanyByName(String name) {
+        for (Company company : this.companies) {
+            if (name.equalsIgnoreCase(company.getName())) {
+                return company;
+            }
+        }
+        return null;
     }
 }

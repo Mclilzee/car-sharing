@@ -32,13 +32,32 @@ public class CustomersController {
             System.out.println("\nThe customer list is empty!\n");
             return;
         }
-        printCustomerChoosingInstructions();
+        Customer customer = null;
+        boolean quit = false;
+        while (!quit) {
+            printCustomerChoosingInstructions();
+            String input = Main.scanner.nextLine();
+            if ("0".equals(input)) {
+                return;
+            }
+
+            customer = getCustomer(input);
+
+            if (customer != null) {
+                break;
+            } else {
+                System.out.println("There is no customer with name / id -> " + input);
+            }
+        }
+
+        customer.optionsMenu();
     }
 
     private void printCustomerChoosingInstructions() {
         System.out.println();
         System.out.println("Customer list:");
         customers.forEach(customer -> System.out.printf("%d. %s\n", customer.getId(), customer.getName()));
+        System.out.println("0. Back");
     }
 
     public void createCustomer() {
