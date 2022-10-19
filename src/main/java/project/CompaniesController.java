@@ -5,10 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompaniesController implements CompanyDao {
+public class CompaniesController {
 
-    @Override
-    public List<Company> getAllCompanies() {
+    private List<Company> getAllCompanies() {
         List<Company> companies = new ArrayList<>();
         try {
             ResultSet result = Main.getStatement().executeQuery("Select * FROM company");
@@ -23,7 +22,6 @@ public class CompaniesController implements CompanyDao {
         return companies;
     }
 
-    @Override
     public Company getCompany(String input) {
         Company company;
         if (input.matches("\\d+")) {
@@ -114,13 +112,5 @@ public class CompaniesController implements CompanyDao {
             System.out.println("Failed to add new company");
             System.out.println(e.getMessage());
         }
-    }
-
-    @Override
-    public void updateCompany(int id, String newName) {
-    }
-
-    @Override
-    public void deleteCompany(int id) {
     }
 }
