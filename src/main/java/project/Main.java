@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 public class Main {
     
-    private static CustomersController customerController;
     private static Statement statement;
     public static final Scanner scanner = new Scanner(System.in);
 
@@ -17,8 +16,6 @@ public class Main {
         Connection conn = DriverManager.getConnection("jdbc:h2:./database/carsharing");
         conn.setAutoCommit(true);
         statement = conn.createStatement();
-        
-        customerController = new CustomersController();
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS company (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL)");
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS car (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL," +
                 "company_id INT NOT NULL, FOREIGN KEY (company_id) REFERENCES company(id))");
@@ -42,10 +39,10 @@ public class Main {
                     logInAsManager();
                     break;
                 case "2":
-                    customerController.chooseCustomer();
+                    CustomersController.chooseCustomer();
                     break;
                 case "3":
-                    customerController.createCustomer();
+                    CustomersController.createCustomer();
                     break;
                 case "0":
                     quit = true;

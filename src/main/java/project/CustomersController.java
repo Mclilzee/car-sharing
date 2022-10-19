@@ -5,16 +5,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomersController {
+public abstract class CustomersController {
 
-    private List<Customer> customers;
+    private static List<Customer> customers;
 
-    public CustomersController() {
-        this.customers = new ArrayList<>();
+    private CustomersController() {
     }
 
-    private void updateCustomers() {
-        this.customers = new ArrayList<>();
+    static {
+        customers = new ArrayList<>();
+    }
+
+    private static void updateCustomers() {
+        customers = new ArrayList<>();
         try {
             ResultSet result = Main.getStatement().executeQuery("SELECT * FROM customer");
             while (result.next()) {
@@ -26,13 +29,13 @@ public class CustomersController {
         }
     }
 
-    public void chooseCustomer() {
+    public static void chooseCustomer() {
         updateCustomers();
-        if (this.customers.isEmpty()) {
+        if (customers.isEmpty()) {
             System.out.println("\nThe customer list is empty!\n");
             return;
         }
-        Customer customer = null;
+        Customer customer;
         while (true) {
             printCustomerChoosingInstructions();
             String input = Main.scanner.nextLine();
@@ -52,14 +55,14 @@ public class CustomersController {
         customer.optionsMenu();
     }
 
-    private void printCustomerChoosingInstructions() {
+    private static void printCustomerChoosingInstructions() {
         System.out.println();
         System.out.println("Customer list:");
         customers.forEach(customer -> System.out.printf("%d. %s\n", customer.getId(), customer.getName()));
         System.out.println("0. Back");
     }
 
-    public void createCustomer() {
+    public static void createCustomer() {
         System.out.println("\nEnter the customer name:");
         String input = Main.scanner.nextLine();
         try {
@@ -71,17 +74,17 @@ public class CustomersController {
         }
     }
 
-    private Customer getCustomer(String input) {
+    private static Customer getCustomer(String input) {
         if (input.matches("\\d+")) {
             int index = Integer.parseInt(input) - 1;
-            return this.customers.size() > index ? this.customers.get(index) : null;
+            return customers.size() > index ? customers.get(index) : null;
         } else {
             return findCustomerByName(input);
         }
     }
 
-    private Customer findCustomerByName(String name) {
-        for (Customer customer : this.customers) {
+    private static Customer findCustomerByName(String name) {
+        for (Customer customer : customers) {
             if (name.equalsIgnoreCase(customer.getName())) {
                 return customer;
             }

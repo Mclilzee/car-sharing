@@ -61,6 +61,6 @@ public class Customer {
     }
 
     private void rentACar() {
-
+        CompaniesController.getCompany();
     }
 }
