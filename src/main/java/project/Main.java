@@ -43,6 +43,9 @@ public class Main {
                 case "1":
                     logInAsManager();
                     break;
+                case "2":
+                    customerController.chooseCustomer();
+                    break;
                 case "0":
                     quit = true;
                     break;
