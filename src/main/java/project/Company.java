@@ -9,10 +9,12 @@ public class Company {
 
     private int id;
     private String name;
+    private List<Car> cars;
 
     public Company(int id, String name) {
         this.id = id;
         this.name = name;
+        this.cars = new ArrayList<>();
     }
 
     public String getName() {
@@ -31,8 +33,8 @@ public class Company {
         this.id = id;
     }
 
-    public List<Car> getAllCars() {
-        List<Car> cars = new ArrayList<>();
+    private void updateCars() {
+        this.cars = new ArrayList<>();
         try {
             ResultSet result = Main.getStatement().executeQuery("SELECT id, name FROM car WHERE company_id = " + this.id);
             while (result.next()) {
@@ -42,8 +44,6 @@ public class Company {
             System.out.println("Failed to retrieve car data");
             System.out.println(e.getMessage());
         }
-
-        return cars;
     }
 
     public void chooseCar() {
@@ -68,12 +68,14 @@ public class Company {
     }
 
     private void printCarList() {
-        List<Car> cars = getAllCars();
-        if (cars.isEmpty()) {
+        updateCars();
+        if (this.cars.isEmpty()) {
             System.out.println("\nThe car list is empty!");
         } else {
             System.out.println("\nCar list:");
-            cars.forEach(car -> System.out.printf("%d. %s\n", car.getId(), car.getName()));
+            for (int i = 0; i < this.cars.size(); i++) {
+                System.out.printf("%d. %s\n", i + 1, this.cars.get(i).getName());
+            }
         }
     }
 

@@ -7,8 +7,14 @@ import java.util.List;
 
 public class CustomersController {
 
-    private List<Customer> getAllCustomers() {
-        List<Customer> customers = new ArrayList<>();
+    private List<Customer> customers;
+
+    public CustomersController() {
+        this.customers = new ArrayList<>();
+    }
+
+    private void updateCustomers() {
+        this.customers = new ArrayList<>();
         try {
             ResultSet result = Main.getStatement().executeQuery("SELECT * FROM customer");
             while (result.next()) {
@@ -18,20 +24,39 @@ public class CustomersController {
             System.out.println("Failed to retrieve customers");
             System.out.println(e.getMessage());
         }
+    }
 
-        return customers;
+    private Customer getCustomer() {
+        String input = Main.scanner.nextLine();
+        if (input.matches("\\d+")) {
+            int index = Integer.parseInt(input);
+
+            return customers.size() > index ? customers.get(index) : null;
+        } else {
+            return getCustomerByName(input);
+        }
+    }
+
+    private Customer getCustomerByName(String name) {
+        for (Customer customer : this.customers) {
+            if (name.equalsIgnoreCase(customer.getName())) {
+                return customer;
+            }
+        }
+
+        return null;
     }
 
     public void chooseCustomer() {
-        List<Customer> customers = getAllCustomers();
-        if (customers.isEmpty()) {
+        updateCustomers();
+        if (this.customers.isEmpty()) {
             System.out.println("\nThe customer list is empty!\n");
             return;
         }
-        printCustomerChoosingInstructions(customers);
+        printCustomerChoosingInstructions();
     }
 
-    private void printCustomerChoosingInstructions(List<Customer> customers) {
+    private void printCustomerChoosingInstructions() {
         System.out.println();
         System.out.println("Customer list:");
         customers.forEach(customer -> System.out.printf("%d. %s\n", customer.getId(), customer.getName()));
