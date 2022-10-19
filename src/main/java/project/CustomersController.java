@@ -26,20 +26,9 @@ public class CustomersController {
         }
     }
 
-    private Customer getCustomer() {
-        String input = Main.scanner.nextLine();
-        if (input.matches("\\d+")) {
-            int index = Integer.parseInt(input);
-
-            return customers.size() > index ? customers.get(index) : null;
-        } else {
-            return getCustomerByName(input);
-        }
-    }
-
-    private Customer getCustomerByName(String name) {
+    private Customer getCustomer(String input) {
         for (Customer customer : this.customers) {
-            if (name.equalsIgnoreCase(customer.getName())) {
+            if (input.equals(customer.getName()) || input.equals(String.valueOf(customer.getId()))) {
                 return customer;
             }
         }

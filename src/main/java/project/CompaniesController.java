@@ -7,59 +7,28 @@ import java.util.List;
 
 public class CompaniesController {
 
-    private List<Company> getAllCompanies() {
-        List<Company> companies = new ArrayList<>();
+    private List<Company> companies;
+
+    public CompaniesController() {
+        this.companies = new ArrayList<>();
+    }
+
+    private void updateCompanies() {
+        this.companies = new ArrayList<>();
         try {
             ResultSet result = Main.getStatement().executeQuery("Select * FROM company");
             while (result.next()) {
-                companies.add(new Company(result.getInt("id"), result.getString("name")));
+                this.companies.add(new Company(result.getInt("id"), result.getString("name")));
             }
         } catch (SQLException e) {
             System.out.println("Failed to retrieve companies");
             System.out.println(e.getMessage());
         }
-
-        return companies;
-    }
-
-    public Company getCompany(String input) {
-        Company company;
-        if (input.matches("\\d+")) {
-            company = queryCompanyById(Integer.parseInt(input));
-        } else {
-            company = queryCompanyByName(input);
-        }
-
-        return company;
-    }
-
-    private Company queryCompanyByName(String name) {
-        Company company = null;
-        try {
-            ResultSet result = Main.getStatement().executeQuery("SELECT * FROM company WHERE name = '" + name + "'");
-            result.first();
-            company = new Company(result.getInt("id"), result.getString("name"));
-        } catch (SQLException ignored) {
-        }
-
-        return company;
-    }
-
-    private Company queryCompanyById(int id) {
-        Company company = null;
-        try {
-            ResultSet result = Main.getStatement().executeQuery("SELECT * FROM company WHERE id = " + id);
-            result.first();
-            company = new Company(result.getInt("id"), result.getString("name"));
-        } catch (SQLException ignored) {
-        }
-
-        return company;
     }
 
     public void chooseCompany() {
-        List<Company> companies = this.getAllCompanies();
-        if (companies.isEmpty()) {
+        updateCompanies();
+        if (this.companies.isEmpty()) {
             System.out.println("\nThe company list is empty!");
             return;
         }
@@ -72,7 +41,7 @@ public class CompaniesController {
                 return;
             }
 
-            company = getCompany(companies, input);
+            company = getCompany(input);
             if (company != null) {
                 break;
             } else {
@@ -83,8 +52,8 @@ public class CompaniesController {
         company.chooseCar();
     }
 
-    private Company getCompany(List<Company> companies, String input) {
-        for (Company company : companies) {
+    private Company getCompany(String input) {
+        for (Company company : this.companies) {
             if (input.equals(company.getName()) || input.equals(String.valueOf(company.getId()))) {
                 return company;
             }
