@@ -35,6 +35,7 @@ public class Customer {
                     rentACar();
                     break;
                 case "2":
+                    returnCar();
                     break;
                 case "3":
                     break;
@@ -58,7 +59,7 @@ public class Customer {
 
     private void rentACar() {
         if (getCustomerRentedCar() != null) {
-            System.out.println("You've already rented a car!");
+            System.out.println("\nYou've already rented a car!");
             return;
         }
 
@@ -130,6 +131,22 @@ public class Customer {
             System.out.printf("\nYou rented '%s'\n", car.getName());
         } catch (SQLException e) {
             System.out.println("Failed to rent a car");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void returnCar() {
+        Car car = getCustomerRentedCar();
+        if (car == null) {
+            System.out.println("\nYou didn't rent a car!");
+            return;
+        }
+
+        try {
+            Main.getStatement().executeUpdate("UPDATE customer SET rented_car_id = NULL WHERE id = " + this.id);
+            System.out.println("\nYou've returned a rented car!");
+        } catch (SQLException e) {
+            System.out.println("Failed to return a car");
             System.out.println(e.getMessage());
         }
     }
