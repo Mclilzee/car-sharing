@@ -29,12 +29,23 @@ public class CustomersController {
             return;
         }
         printCustomerChoosingInstructions(customers);
-
     }
 
     private void printCustomerChoosingInstructions(List<Customer> customers) {
         System.out.println();
         System.out.println("Customer list:");
         customers.forEach(customer -> System.out.printf("%d. %s\n", customer.getId(), customer.getName()));
+    }
+
+    public void createCustomer() {
+        System.out.println("\nEnter the customer name:");
+        String input = Main.scanner.nextLine();
+        try {
+            Main.getStatement().executeUpdate("INSERT INTO customer (name) VALUES ('" + input + "')");
+            System.out.println("the customer was added!\n");
+        } catch (SQLException e) {
+            System.out.println("Failed to add customer");
+            System.out.println(e.getMessage());
+        }
     }
 }

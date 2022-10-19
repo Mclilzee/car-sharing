@@ -25,8 +25,8 @@ public class Main {
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS car (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL," +
                 "company_id INT NOT NULL, FOREIGN KEY (company_id) REFERENCES company(id))");
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS customer (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL," +
-                "RENTED_CAR_ID INT DEFAULT NULL," +
-                "FOREIGN KEY (id) REFERENCES car(id))");
+                "rented_car_id INT DEFAULT NULL," +
+                "FOREIGN KEY (rented_car_id) REFERENCES car(id))");
         menuOptions();
         conn.close();
     }
@@ -45,6 +45,9 @@ public class Main {
                     break;
                 case "2":
                     customerController.chooseCustomer();
+                    break;
+                case "3":
+                    customerController.createCustomer();
                     break;
                 case "0":
                     quit = true;
@@ -92,6 +95,4 @@ public class Main {
         System.out.println("2. Create a company");
         System.out.println("0. Back");
     }
-
-
 }
