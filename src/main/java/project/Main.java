@@ -8,7 +8,8 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static CompaniesController controller;
+    private static CompaniesController companiesController;
+    private static CustomersController customerController;
     private static Statement statement;
     public static final Scanner scanner = new Scanner(System.in);
 
@@ -18,7 +19,8 @@ public class Main {
         conn.setAutoCommit(true);
         statement = conn.createStatement();
 
-        controller = new CompaniesController();
+        companiesController = new CompaniesController();
+        customerController = new CustomersController();
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS company (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL)");
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS car (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL," +
                 "company_id INT NOT NULL, FOREIGN KEY (company_id) REFERENCES company(id))");
@@ -55,6 +57,8 @@ public class Main {
 
     private static void printMenuOptionsInstructions() {
         System.out.println("1. Log in as a manager");
+        System.out.println("2. Log in as customer");
+        System.out.println("3. Create a customer");
         System.out.println("0. Exit");
     }
 
@@ -65,10 +69,10 @@ public class Main {
 
             switch (scanner.nextLine()) {
                 case "1":
-                    controller.chooseCompany();
+                    companiesController.chooseCompany();
                     break;
                 case "2":
-                    controller.createCompany();
+                    companiesController.createCompany();
                     break;
                 case "0":
                     quit = true;

@@ -7,9 +7,6 @@ import java.util.List;
 
 public class CompaniesController implements CompanyDao {
 
-    public CompaniesController() {
-    }
-
     @Override
     public List<Company> getAllCompanies() {
         List<Company> companies = new ArrayList<>();
