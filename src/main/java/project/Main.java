@@ -70,7 +70,7 @@ public class Main {
 
             switch (scanner.nextLine()) {
                 case "1":
-                    CompaniesController.chooseCompany();
+                    CompaniesController.manageCompany();
                     break;
                 case "2":
                     CompaniesController.createCompany();

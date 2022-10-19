@@ -29,11 +29,18 @@ public abstract class CompaniesController {
         }
     }
 
-    public static void chooseCompany() {
+    public static void manageCompany() {
+        Company company = chooseCompany();
+        if (company != null) {
+            company.optionsMenu();
+        }
+    }
+
+    public static Company chooseCompany() {
         updateCompanies();
         if (companies.isEmpty()) {
             System.out.println("\nThe company list is empty!");
-            return;
+            return null;
         }
 
         Company company;
@@ -41,7 +48,7 @@ public abstract class CompaniesController {
             printChooseCompanyInstructions();
             String input = Main.scanner.nextLine();
             if (input.equals("0")) {
-                return;
+                return null;
             }
 
             company = getCompany(input);
@@ -52,12 +59,12 @@ public abstract class CompaniesController {
             }
         }
 
-        company.optionsMenu();
+        return company;
     }
 
     private static void printChooseCompanyInstructions() {
         System.out.println();
-        System.out.println("Choose the company:");
+        System.out.println("Choose a company:");
         for (int i = 0; i < companies.size(); i++) {
             System.out.printf("%d. %s\n", i + 1, companies.get(i).getName());
         }
@@ -78,7 +85,7 @@ public abstract class CompaniesController {
         }
     }
 
-    private static Company getCompany(String input) {
+    public static Company getCompany(String input) {
         if (input.matches("\\d+")) {
             int index = Integer.parseInt(input) - 1;
             return companies.size() > index ? companies.get(index) : null;
