@@ -102,9 +102,20 @@ public class Customer {
             car = getCar(input);
             if (car != null) {
                 rentSpecificCar(car);
+                break;
             } else {
                 System.out.println("There are no cars with name / id -> " + input);
             }
+        }
+    }
+
+    private void rentSpecificCar(Car car) {
+        try {
+            Main.getStatement().executeUpdate("UPDATE customer SET rented_car_id = " + car.getId());
+            this.rentedCar = car;
+        } catch (SQLException e) {
+            System.out.println("Failed to rent a car");
+            System.out.println(e.getMessage());
         }
     }
 

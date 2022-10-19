@@ -53,13 +53,11 @@ public abstract class CompaniesController {
 
             company = getCompany(input);
             if (company != null) {
-                break;
+                return company;
             } else {
                 System.out.println("There is no company with that name / id -> " + input);
             }
         }
-
-        return company;
     }
 
     private static void printChooseCompanyInstructions() {

@@ -35,6 +35,7 @@ public abstract class CustomersController {
             System.out.println("\nThe customer list is empty!\n");
             return;
         }
+
         Customer customer;
         while (true) {
             printCustomerChoosingInstructions();
@@ -46,13 +47,12 @@ public abstract class CustomersController {
             customer = getCustomer(input);
 
             if (customer != null) {
+                customer.optionsMenu();
                 break;
             } else {
                 System.out.println("There is no customer with name / id -> " + input);
             }
         }
-
-        customer.optionsMenu();
     }
 
     private static void printCustomerChoosingInstructions() {
