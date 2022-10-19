@@ -33,8 +33,7 @@ public class CustomersController {
             return;
         }
         Customer customer = null;
-        boolean quit = false;
-        while (!quit) {
+        while (true) {
             printCustomerChoosingInstructions();
             String input = Main.scanner.nextLine();
             if ("0".equals(input)) {

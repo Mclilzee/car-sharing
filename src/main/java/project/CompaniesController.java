@@ -49,7 +49,7 @@ public class CompaniesController {
             }
         }
 
-        company.chooseCar();
+        company.optionsMenu();
     }
 
     private void printChooseCompanyInstructions() {

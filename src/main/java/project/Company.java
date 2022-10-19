@@ -17,6 +17,11 @@ public class Company {
         this.cars = new ArrayList<>();
     }
 
+    public List<Car> getCars() {
+        updateCars();
+        return this.cars;
+    }
+
     public String getName() {
         return name;
     }
@@ -46,7 +51,7 @@ public class Company {
         }
     }
 
-    public void chooseCar() {
+    public void optionsMenu() {
         boolean quit = false;
         while (!quit) {
             printChooseCarInstructions();
