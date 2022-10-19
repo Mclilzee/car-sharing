@@ -8,14 +8,12 @@ import java.util.List;
 public class Customer {
     private int id;
     private String name;
-    private Car rentedCar;
     private Company chosenCompany;
     private List<Car> cars;
 
     public Customer(int id, String name) {
         this.id = id;
         this.name = name;
-        this.rentedCar = null;
         this.chosenCompany = null;
         this.cars = new ArrayList<>();
     }
@@ -67,7 +65,7 @@ public class Customer {
     }
 
     private void rentACar() {
-        if (rentedCar != null) {
+        if (getCustomerRentedCar() != null) {
             System.out.println("You've already rented a car!");
             return;
         }
@@ -75,6 +73,31 @@ public class Customer {
         chosenCompany = CompaniesController.chooseCompany();
         if (chosenCompany != null) {
             chooseCar();
+        }
+    }
+
+    private Car getCustomerRentedCar() {
+        try {
+            ResultSet result = Main.getStatement().executeQuery("SELECT rented_car_id FROM customer WHERE id = " + this.id);
+            result.first();
+            int carId = result.getInt("rented_car_id");
+            return carId == 0 ? null : getRentedCar(carId);
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve rented car information");
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    private Car getRentedCar(int carId) {
+        try {
+            ResultSet result = Main.getStatement().executeQuery("SELECT id, name FROM car WHERE id = " + carId);
+            result.first();
+            return new Car(result.getInt("id"), result.getString("name"));
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve car using id");
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 
@@ -112,7 +135,7 @@ public class Customer {
     private void rentSpecificCar(Car car) {
         try {
             Main.getStatement().executeUpdate("UPDATE customer SET rented_car_id = " + car.getId());
-            this.rentedCar = car;
+            System.out.printf("\nYou rented '%s'\n", car.getName());
         } catch (SQLException e) {
             System.out.println("Failed to rent a car");
             System.out.println(e.getMessage());
