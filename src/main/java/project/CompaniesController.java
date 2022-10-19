@@ -5,20 +5,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompaniesController {
+public abstract class CompaniesController {
 
-    private List<Company> companies;
+    private static List<Company> companies;
 
-    public CompaniesController() {
-        this.companies = new ArrayList<>();
+    private CompaniesController() {
     }
 
-    private void updateCompanies() {
-        this.companies = new ArrayList<>();
+    static {
+        companies = new ArrayList<>();
+    }
+
+    private static void updateCompanies() {
+        companies = new ArrayList<>();
         try {
             ResultSet result = Main.getStatement().executeQuery("Select * FROM company");
             while (result.next()) {
-                this.companies.add(new Company(result.getInt("id"), result.getString("name")));
+                companies.add(new Company(result.getInt("id"), result.getString("name")));
             }
         } catch (SQLException e) {
             System.out.println("Failed to retrieve companies");
@@ -26,9 +29,9 @@ public class CompaniesController {
         }
     }
 
-    public void chooseCompany() {
+    public static void chooseCompany() {
         updateCompanies();
-        if (this.companies.isEmpty()) {
+        if (companies.isEmpty()) {
             System.out.println("\nThe company list is empty!");
             return;
         }
@@ -52,16 +55,16 @@ public class CompaniesController {
         company.optionsMenu();
     }
 
-    private void printChooseCompanyInstructions() {
+    private static void printChooseCompanyInstructions() {
         System.out.println();
         System.out.println("Choose the company:");
         for (int i = 0; i < companies.size(); i++) {
-            System.out.printf("%d. %s\n", i + 1, this.companies.get(i).getName());
+            System.out.printf("%d. %s\n", i + 1, companies.get(i).getName());
         }
         System.out.println("0. Back");
     }
 
-    public void createCompany() {
+    public static void createCompany() {
         System.out.println();
         System.out.println("Enter the company name:");
         String input = Main.scanner.nextLine();
@@ -75,17 +78,17 @@ public class CompaniesController {
         }
     }
 
-    private Company getCompany(String input) {
+    private static Company getCompany(String input) {
         if (input.matches("\\d+")) {
             int index = Integer.parseInt(input) - 1;
-            return this.companies.size() > index ? this.companies.get(index) : null;
+            return companies.size() > index ? companies.get(index) : null;
         } else {
             return findCompanyByName(input);
         }
     }
 
-    private Company findCompanyByName(String name) {
-        for (Company company : this.companies) {
+    private static Company findCompanyByName(String name) {
+        for (Company company : companies) {
             if (name.equalsIgnoreCase(company.getName())) {
                 return company;
             }
