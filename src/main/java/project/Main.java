@@ -22,6 +22,9 @@ public class Main {
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS company (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL)");
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS car (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL," +
                 "company_id INT NOT NULL, FOREIGN KEY (company_id) REFERENCES company(id))");
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS customer (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR UNIQUE NOT NULL," +
+                "RENTED_CAR_ID INT DEFAULT NULL," +
+                "FOREIGN KEY (id) REFERENCES car(id))");
         menuOptions();
         conn.close();
     }
