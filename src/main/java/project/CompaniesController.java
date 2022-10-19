@@ -35,7 +35,7 @@ public class CompaniesController {
 
         Company company;
         while (true) {
-            printChooseCompanyInstructions(companies);
+            printChooseCompanyInstructions();
             String input = Main.scanner.nextLine();
             if (input.equals("0")) {
                 return;
@@ -53,19 +53,29 @@ public class CompaniesController {
     }
 
     private Company getCompany(String input) {
+        if (input.matches("\\d+")) {
+            int index = Integer.parseInt(input) - 1;
+            return this.companies.size() > index ? this.companies.get(index) : null;
+        } else {
+            return findCompanyByName(input);
+        }
+    }
+
+    private Company findCompanyByName(String name) {
         for (Company company : this.companies) {
-            if (input.equals(company.getName()) || input.equals(String.valueOf(company.getId()))) {
+            if (name.equalsIgnoreCase(company.getName())) {
                 return company;
             }
         }
-
         return null;
     }
 
-    private void printChooseCompanyInstructions(List<Company> companies) {
+    private void printChooseCompanyInstructions() {
         System.out.println();
         System.out.println("Choose the company:");
-        companies.forEach(company -> System.out.printf("%d. %s\n", company.getId(), company.getName()));
+        for (int i = 0; i < companies.size(); i++) {
+            System.out.printf("%d. %s\n", i + 1, this.companies.get(i).getName());
+        }
         System.out.println("0. Back");
     }
 

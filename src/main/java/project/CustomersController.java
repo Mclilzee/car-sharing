@@ -26,16 +26,6 @@ public class CustomersController {
         }
     }
 
-    private Customer getCustomer(String input) {
-        for (Customer customer : this.customers) {
-            if (input.equals(customer.getName()) || input.equals(String.valueOf(customer.getId()))) {
-                return customer;
-            }
-        }
-
-        return null;
-    }
-
     public void chooseCustomer() {
         updateCustomers();
         if (this.customers.isEmpty()) {
@@ -61,5 +51,23 @@ public class CustomersController {
             System.out.println("Failed to add customer");
             System.out.println(e.getMessage());
         }
+    }
+
+    private Customer getCustomer(String input) {
+        if (input.matches("\\d+")) {
+            int index = Integer.parseInt(input) - 1;
+            return this.customers.size() > index ? this.customers.get(index) : null;
+        } else {
+            return findCustomerByName(input);
+        }
+    }
+
+    private Customer findCustomerByName(String name) {
+        for (Customer customer : this.customers) {
+            if (name.equalsIgnoreCase(customer.getName())) {
+                return customer;
+            }
+        }
+        return null;
     }
 }
