@@ -38,6 +38,7 @@ public class Customer {
                     returnCar();
                     break;
                 case "3":
+                    printCurrentRentedCar();
                     break;
                 case "0":
                     quit = true;
@@ -84,9 +85,9 @@ public class Customer {
 
     private Car getRentedCar(int carId) {
         try {
-            ResultSet result = Main.getStatement().executeQuery("SELECT id, name FROM car WHERE id = " + carId);
+            ResultSet result = Main.getStatement().executeQuery("SELECT * FROM car WHERE id = " + carId);
             result.first();
-            return new Car(result.getInt("id"), result.getString("name"));
+            return new Car(result.getInt("id"), result.getString("name"), result.getInt("company_id"));
         } catch (SQLException e) {
             System.out.println("Failed to retrieve car using id");
             System.out.println(e.getMessage());
@@ -148,6 +149,29 @@ public class Customer {
         } catch (SQLException e) {
             System.out.println("Failed to return a car");
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void printCurrentRentedCar() {
+        Car car = getCustomerRentedCar();
+        if (car == null) {
+            System.out.println("\nYou didn't rent a car!");
+            return;
+        }
+
+        String carCompanyName = getCarCompanyName(car);
+        System.out.printf("\nYour rented car:\n%s\nCompany:\n%s\n", car.getName(), carCompanyName);
+    }
+
+    private String getCarCompanyName(Car car) {
+        try {
+            ResultSet result = Main.getStatement().executeQuery("SELECT name FROM company WHERE id = " + car.getCompanyId());
+            result.first();
+            return result.getString("name");
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve company name");
+            System.out.println(e.getMessage());
+            return "";
         }
     }
 

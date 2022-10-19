@@ -58,7 +58,9 @@ public abstract class CustomersController {
     private static void printCustomerChoosingInstructions() {
         System.out.println();
         System.out.println("Customer list:");
-        customers.forEach(customer -> System.out.printf("%d. %s\n", customer.getId(), customer.getName()));
+        for (int i = 0; i < customers.size(); i++) {
+            System.out.printf("%d. %s\n", i + 1, customers.get(i).getName());
+        }
         System.out.println("0. Back");
     }
 

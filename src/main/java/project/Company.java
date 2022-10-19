@@ -29,9 +29,9 @@ public class Company {
     private void updateCars() {
         this.cars = new ArrayList<>();
         try {
-            ResultSet result = Main.getStatement().executeQuery("SELECT id, name FROM car WHERE company_id = " + this.id);
+            ResultSet result = Main.getStatement().executeQuery("SELECT * FROM car WHERE company_id = " + this.id);
             while (result.next()) {
-                cars.add(new Car(result.getInt("id"), result.getString("name")));
+                cars.add(new Car(result.getInt("id"), result.getString("name"), result.getInt("company_id")));
             }
         } catch (SQLException e) {
             System.out.println("Failed to retrieve car data");
