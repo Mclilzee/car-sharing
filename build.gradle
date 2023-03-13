@@ -22,3 +22,7 @@ test {
 application {
     mainClass = "project.Main"
 }
+
+run {
+    standardInput = System.in
+}
