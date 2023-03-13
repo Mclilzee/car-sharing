@@ -97,3 +97,132 @@ The company was created!
 ```
 
 ### Adding Cars
+```console
+1. Company list
+2. Create a company
+0. Back
+$ 1
+
+Choose a company:
+1. Carrental Co.
+2. New Cars
+0. Back
+$ 1
+
+'Carrental Co.' company
+1. Car list
+2. Create a car
+0. Back
+$ 2
+Enter the car name:
+$ BMW
+the car was added!
+
+'Carrental Co.' company
+1. Car list
+2. Create a car
+0. Back
+$ 2
+Enter the car name:
+$ Toyota
+
+'Carrental Co.' company
+1. Car list
+2. Create a car
+0. Back
+$ 1
+
+Car list:
+1. BMW
+2. Toyota
+
+'Carrental Co.' company
+1. Car list
+2. Create a car
+0. Back
+```
+
+### Renting Cars
+```console
+1. Log in as a manager
+2. Log in as a customer
+3. Create a customer
+0. Exit
+$ 2
+
+Customer list:
+1. John
+2. Mark Azmar
+3. Omar Ali
+0. Back
+$ 1
+
+1. Rent a car
+2. Return a rented car
+3. My rented car
+0. Back
+$ 1
+
+Choose a company:
+1. Carrental Co.
+2. New Cars
+0. Back
+$ 1
+
+Choose a car:
+1. BMW
+2. Toyota
+$ 1
+
+You rented 'BMW'
+
+1. Rent a car
+2. Return a rented car
+3. My rented car
+0. Back
+$ 0
+
+1. Log in as a manager
+2. Log in as a customer
+3. Create a customer
+0. Exit
+$ 2
+
+Customer list:
+1. John
+2. Mark Azmar
+3. Omar Ali
+0. Back
+$ 2
+
+1. Rent a car
+2. Return a rented car
+3. My rented car
+0. Back
+$ 1
+
+Choose a company:
+1. Carrental Co.
+2. New Cars
+0. Back
+$ 1
+
+Choose a car:
+1. Toyota
+$ 1
+
+You rented 'Toyota'
+
+1. Rent a car
+2. Return a rented car
+3. My rented car
+0. Back
+$ 2
+
+You've returned a rented car!
+
+1. Rent a car
+2. Return a rented car
+3. My rented car
+0. Back
+```
