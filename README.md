@@ -18,3 +18,82 @@ The first instruction phase is choosing to log on as manager, customer or create
 - Manager will be able to create companies, list companies, check their cars and add cars to each company.
 - Customer will be able to Rent, return and check the current rented cars.
   No two customers can rent the same car, once car is rented it becomes unavailable until it is returned.
+
+# Examples
+
+### Creating Customers
+```console
+$ ./gradlew run
+> Task :compileJava UP-TO-DATE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+
+> Task :run
+1. Log in as a manager
+2. Log in as a customer
+3. Create a customer
+0. Exit
+$ 3
+
+Enter the customer name:
+$ John
+the customer was added!
+
+1. Log in as a manager
+2. Log in as a customer
+3. Create a customer
+0. Exit
+$ 3
+
+Enter the customer name:
+$ Mark Azmar
+the customer was added!
+
+1. Log in as a manager
+2. Log in as a customer
+3. Create a customer
+0. Exit
+$ 3
+
+Enter the customer name:
+$ Omar Ali
+the customer was added!
+
+1. Log in as a manager
+2. Log in as a customer
+3. Create a customer
+0. Exit
+```
+
+### Creating Companies
+```console
+1. Log in as a manager
+2. Log in as a customer
+3. Create a customer
+0. Exit
+$ 1  
+
+1. Company list
+2. Create a company
+0. Back
+$ 2
+
+Enter the company name:
+$ Carrental Co.
+The company was created!
+
+1. Company list
+2. Create a company
+0. Back
+$ 2
+
+Enter the company name:
+$ New Cars
+The company was created!
+
+1. Company list
+2. Create a company
+0. Back
+```
+
+### Adding Cars
